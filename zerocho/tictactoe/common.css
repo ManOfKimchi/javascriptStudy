@@ -5,7 +5,7 @@ table {
     /* padding: 0%; */
 }
 
-button {
+.cell-button {
     width: 100px;
     height: 100px;
     font-size: 80px;
@@ -18,3 +18,7 @@ button {
 button[value="X"] {
     color: brown;
 } */
+
+.status-td {
+    border: 1px solid #444444;
+}
