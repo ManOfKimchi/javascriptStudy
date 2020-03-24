@@ -107,6 +107,7 @@ var innerButtonOnClick = function (e) {
 var resetButtonClick = function (e) {
     document.getElementById('game-table').remove();    
     initGameData();
-    initGamgeBoard();    
+    initGamgeBoard(); 
+    resetGameStatus();   
     e.target.hidden = true;
 }

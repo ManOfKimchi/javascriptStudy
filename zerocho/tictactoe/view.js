@@ -38,14 +38,14 @@ function initGameStatus () {
     // 턴 정보
     var turnInfo = document.createElement('td');
     turnInfo.id = 'cur-turn';
-    turnInfo.textContent = `현재 턴: ${g_cellType[g_curTurn].text}`;
+    turnInfo.textContent = _curTurnInfoStr(g_cellType[g_curTurn].text);
     turnInfo.className = 'status-td';
     tr.append(turnInfo);
     
     // 스코어 정보
     var scoreInfo = document.createElement('td');
     scoreInfo.id = 'score-info';
-    scoreInfo.textContent = `O: ${g_score[0]}, X: ${g_score[1]}`;
+    scoreInfo.textContent = _scoreInfoStr(g_score[0], g_score[1]);
     scoreInfo.className = 'status-td';
     tr.append(scoreInfo);
 
@@ -60,4 +60,23 @@ function initGameStatus () {
 
     statusTable.append(tr);
     document.body.append(statusTable);
+}
+
+// 상단 정보 리셋
+function resetGameStatus(scoreReset) {
+    var turnInfo = document.getElementById('cur-turn');
+    turnInfo.textContent = _curTurnInfoStr(g_cellType[g_curTurn].text);
+
+    if (scoreReset) {
+        var scoreInfo = document.getElementById('score-info');
+        scoreInfo.textContent = _scoreInfoStr(g_score[0], g_score[1]);
+    }
+}
+
+function _curTurnInfoStr(curTurn) {
+    return `현재 턴: ${curTurn}`;
+}
+
+function _scoreInfoStr(o, x) {
+    return `O: ${o}, X: ${x}`;
 }

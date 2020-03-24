@@ -44,9 +44,13 @@ var g_score = {
  * 초기 데이터 세팅 
  */ 
 // 게임판 데이터 초기화
-var initGameData = function () {
+var initGameData = function (scoreReset) {
     g_gameBoard = [];
     g_curTurn = 0;
+    if (scoreReset) {
+        g_score[0] = 0;
+        g_score[1] = 0;
+    }
     for (var r = 0; r < g_size; r++) {
         var curRow = [];
         for (var c = 0; c < g_size; c++) {
