@@ -62,17 +62,6 @@ function initGameStatus () {
     document.body.append(statusTable);
 }
 
-// 상단 정보 리셋
-function resetGameStatus(scoreReset) {
-    var turnInfo = document.getElementById('cur-turn');
-    turnInfo.textContent = _curTurnInfoStr(g_cellType[g_curTurn].text);
-
-    if (scoreReset) {
-        var scoreInfo = document.getElementById('score-info');
-        scoreInfo.textContent = _scoreInfoStr(g_score[0], g_score[1]);
-    }
-}
-
 function _curTurnInfoStr(curTurn) {
     return `현재 턴: ${curTurn}`;
 }

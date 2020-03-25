@@ -52,25 +52,74 @@ function validation (selectedRow, selectedCol) {
         }
     }
 
-    // 승리 알림
-    if (verVal === g_size ||
-        horVal === g_size ||
-        leftTopRightBottomVal === g_size ||
-        rightTopLeftBottomVal === g_size) {
-        g_score[g_curTurn]++;
-        document.getElementById('score-info').textContent = `O: ${g_score[0]}, X: ${g_score[1]}`;;
-        g_curTurn = g_turnType.SET;
-        document.getElementById('game-reset').hidden = false;
-    } else {
-        // 턴 넘김                
-        console.log(`현재 턴: ${g_curTurn}`);   
-        g_curTurn = (g_curTurn + 1) % 2;
-        document.getElementById('cur-turn').textContent = `현재 턴: ${g_cellType[g_curTurn].text}`;
-        console.log(`다음 턴: ${g_curTurn}`);
+    // 비김
+    var allSelected = true;
+    for (var r = 0; r < g_size; r++) {
+        for (var c = 0; c < g_size; c++) {
+            if (g_gameBoard[r][c] === g_cellType.EMPTY.value) {
+                allSelected = false;
+                break;
+            }
+        }
     }
+
+    var gameResult = g_gameResultType.NotEnd;
+    if (verVal === g_size || horVal === g_size || leftTopRightBottomVal === g_size || rightTopLeftBottomVal === g_size) {
+        gameResult = g_curTurn === g_turnType.O ? g_gameResultType.O_Won : g_gameResultType.X_Won;
+    } else if (allSelected) {
+        gameResult = g_gameResultType.Draw;
+    }
+    gameOverOrProceed(gameResult);
+    
+    // if (allSelected) {
+    //     g_curTurn = g_turnType.SET;
+    //     document.getElementById('cur-turn').textContent = '비겼네요';
+    //     document.getElementById('game-reset').hidden = false;
+    // } else if (verVal === g_size ||
+    //     horVal === g_size ||
+    //     leftTopRightBottomVal === g_size ||
+    //     rightTopLeftBottomVal === g_size) {
+    //     // 승리 알림
+    //     g_score[g_curTurn]++;
+    //     document.getElementById('score-info').textContent = `O: ${g_score[0]}, X: ${g_score[1]}`;
+    //     document.getElementById('cur-turn').textContent = `${g_cellType[g_curTurn].text}승리`;
+    //     g_curTurn = g_turnType.SET;
+    //     document.getElementById('game-reset').hidden = false;
+    // } else {
+    //     // 턴 넘김                
+    //     console.log(`현재 턴: ${g_curTurn}`);   
+    //     g_curTurn = (g_curTurn + 1) % 2;
+    //     document.getElementById('cur-turn').textContent = `현재 턴: ${g_cellType[g_curTurn].text}`;
+    //     console.log(`다음 턴: ${g_curTurn}`);
+    // }
 
     // 화면에 라인 그리기(svg 학습이 필요함)
     // 다시하기?
+}
+
+// 검사 결과에 대한 게임 진행 데이터, 화면 수정
+function gameOverOrProceed(gameResult) {
+    switch(gameResult) {
+        case g_gameResultType.NotEnd:
+            console.log(`현재 턴: ${g_curTurn}`);   
+            g_curTurn = (g_curTurn + 1) % 2;
+            document.getElementById('cur-turn').textContent = `현재 턴: ${g_cellType[g_curTurn].text}`;
+            console.log(`다음 턴: ${g_curTurn}`);
+            break;
+        case g_gameResultType.O_Won:
+        case g_gameResultType.X_Won:  
+            g_score[g_curTurn]++;
+            document.getElementById('score-info').textContent = `O: ${g_score[0]}, X: ${g_score[1]}`;
+            document.getElementById('cur-turn').textContent = `${g_cellType[g_curTurn].text}승리`;
+            g_curTurn = g_turnType.SET;
+            document.getElementById('game-reset').hidden = false;
+            break;
+        case g_gameResultType.Draw:
+            g_curTurn = g_turnType.SET;
+            document.getElementById('cur-turn').textContent = '비겼네요';
+            document.getElementById('game-reset').hidden = false;
+            break;
+    }
 }
 
 /**
@@ -93,6 +142,9 @@ var innerButtonOnClick = function (e) {
             e.target.textContent = g_cellType[g_curTurn].text;
             e.target.style.color = g_cellType[g_curTurn].color;            
             validation(row, col);
+            if (g_gameMode === g_gameModeType.cpu) {
+                computerSelect();
+            }
             break;
         case g_cellType.O.value:
         case g_cellType.X.value:
@@ -110,4 +162,28 @@ var resetButtonClick = function (e) {
     initGamgeBoard(); 
     resetGameStatus();   
     e.target.hidden = true;
+}
+
+// 상단 정보 리셋
+function resetGameStatus(scoreReset) {
+    var turnInfo = document.getElementById('cur-turn');
+    turnInfo.textContent = _curTurnInfoStr(g_cellType[g_curTurn].text);
+
+    if (scoreReset) {
+        var scoreInfo = document.getElementById('score-info');
+        scoreInfo.textContent = _scoreInfoStr(g_score[0], g_score[1]);
+    }
+}
+
+// CPU 모드
+function computerSelect() {
+    
+    // 계산 후 적정 셀 선택
+    // 계산 부분
+
+
+    // 데이터 셋 부분
+    // 화면 수정 부분    
+    // validation 실행하여 화면, 데이터 업데이트
+    // validation();
 }

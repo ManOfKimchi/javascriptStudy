@@ -40,6 +40,21 @@ var g_score = {
     1: 0
 };
 
+// 대전모드와 cpu 모드
+var g_gameModeType = {
+    vs: 0,
+    cpu: 1
+};
+var g_gameMode = g_gameModeType.cpu;
+
+// 게임 진행 플래그
+var g_gameResultType = {
+    NotEnd: -1,
+    O_Won: 0,
+    X_Won: 1,
+    Draw: 2
+}
+
 /**
  * 초기 데이터 세팅 
  */ 
