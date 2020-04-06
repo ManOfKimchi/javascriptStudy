@@ -210,8 +210,11 @@ function computerSelect() {
     // 계산 부분
     var selected = null;
 
+    // 난이도에 해당하는 선택 좌표 계산
     // 무조건 빈칸 찾아서 선택하는 원숭이급
-    var selected = monkey(g_gameBoard);
+    //var selected = monkey(g_gameBoard, g_curTurn);
+    // 이기고 막는 곳은 둘 줄 아는 노말급
+    var selected = normal(g_gameBoard, g_curTurn);
 
     if (!selected) {
         console.log('cpu가 뭔가 실수했나본데요?');
