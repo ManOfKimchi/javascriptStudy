@@ -96,6 +96,7 @@ function normal(gameBoard, turn) {
     }    
     // 빈칸이 하나면 남은 빈칸을 선택하도록 함
     if (rowCells.length === 1) {
+        console.log('가로', rowCells);
         return {
             row: rowCells[0].row,
             col: rowCells[0].col
@@ -122,6 +123,7 @@ function normal(gameBoard, turn) {
     }
     // 빈칸이 하나면 남은 빈칸을 선택하도록 함
     if (colCells.length === 1) {
+        console.log('세로', colCells);
         return {
             row: colCells[0].row,
             col: colCells[0].col
@@ -133,32 +135,44 @@ function normal(gameBoard, turn) {
     //  0, 2    1, 1    2, 0
     var leftCells = [];
     var rightCells = [];
+    var passLeft = false;
+    var passRight = false;
     for (var r = 0, c = 0; r < gameSize && c < gameSize;) {
         var curLeft = gameBoard[r][c];
         var curRight = gameBoard[r][gameSize - 1 - c];
         // '\'
-        if (curLeft === cellType.EMPTY) {
-            leftCells.push({
-                row: r,
-                col: c
-            });
-        } else if (curLeft !== turn) {
-            break;
+        if (!passLeft) {
+            if (curLeft === cellType.EMPTY) {
+                leftCells.push({
+                    row: r,
+                    col: c
+                });
+            } else if (curLeft !== turn) {
+                passLeft = true;
+                leftCells = [];
+            }
         }
-
+        
         // '/'
-        if (curRight === cellType.EMPTY) {
-            rightCells.push({
-                row: r,
-                col: gameSize - 1 - c
-            });
-        } else if (curRight !== turn) {
-            break;
+        if (!passRight) {
+            if (curRight === cellType.EMPTY) {
+                rightCells.push({
+                    row: r,
+                    col: gameSize - 1 - c
+                });
+            } else if (curRight !== turn) {
+                passRight = true;
+                rightCells = [];
+            }
         }
 
         r++;
         c++;
     }
+    console.log('');
+    console.log('대각', leftCells);
+    console.log('대각', rightCells);
+    console.log('');
     // 대각선 검증
     if (leftCells.length === 1) {
         return {
@@ -182,6 +196,7 @@ function normal(gameBoard, turn) {
         rowCells = [];
         for (var c = 0; c < gameSize; c++) {
             if (gameBoard[r][c] === turn) {
+                rowCells = [];
                 break;
             } else if (gameBoard[r][c] === cellType.EMPTY) {
                 rowCells.push({
@@ -193,6 +208,7 @@ function normal(gameBoard, turn) {
         if (rowCells.length === 1) break;
     }
     if (rowCells.length === 1) {
+        console.log('가로막아', rowCells);
         return {
             row: rowCells[0].row,
             col: rowCells[0].col
@@ -204,6 +220,7 @@ function normal(gameBoard, turn) {
         colCells = [];
         for (var r = 0; r < gameSize; r++) {
             if (gameBoard[r][c] === turn) {
+                colCells = [];
                 break;
             } else if (gameBoard[r][c] === cellType.EMPTY) {
                 colCells.push({
@@ -215,6 +232,7 @@ function normal(gameBoard, turn) {
         if (colCells.length === 1) break;
     }
     if (colCells.length === 1) {
+        console.log('세로막아', colCells);
         return {
             row: colCells[0].row,
             col: colCells[0].col
@@ -232,7 +250,8 @@ function normal(gameBoard, turn) {
         // '\'
         if (!passLeft) {
             if (curLeft === turn) {
-                break;
+                passLeft = true;
+                leftCells = [];
             } else if (curLeft === cellType.EMPTY) {
                 leftCells.push({
                     row: r,
@@ -244,7 +263,8 @@ function normal(gameBoard, turn) {
         // '/'
         if (!passRight) {
             if (curRight === turn) {
-                break;
+                passRight = true;
+                rightCells = [];
             } else if (curRight === cellType.EMPTY) {
                 rightCells.push({
                     row: r,
@@ -256,6 +276,10 @@ function normal(gameBoard, turn) {
         r++;
         c++;
     }
+    console.log('');
+    console.log(leftCells);
+    console.log(rightCells);
+    console.log('');
     // 대각선 검증
     if (leftCells.length === 1) {
         return {
@@ -287,5 +311,6 @@ function normal(gameBoard, turn) {
     }
     var idx = Math.floor(Math.random() * emptyPosList.length);
 
+    console.log('랜덤위치', emptyPosList[idx]);
     return emptyPosList[idx];
 }
