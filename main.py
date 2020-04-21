@@ -6,15 +6,34 @@ from selenium.common.exceptions import NoSuchElementException
 
 # 드라이버
 driver = webdriver.Chrome('chromedriver')
+
 # url
 g_loginUrl = 'https://front.wemakeprice.com/user/login'
 g_adviceUrl = 'https://front.wemakeprice.com/user/password/advice'
-g_productSwitchUrl = 'https://front.wemakeprice.com/product/960270016'
-g_productSwitchTitleUrl = 'https://front.wemakeprice.com/product/920492625'
+# g_productUrl = ''
+# g_productSwitchUrl = 'https://front.wemakeprice.com/product/960270016'
+# g_productSwitchTitleUrl = 'https://front.wemakeprice.com/product/912011697'
+# g_productTesthUrl = 'https://front.wemakeprice.com/product/912011697'
+
 # info
-g_id = 'kjt5974'
-g_pw = '312459wlsxo'
-g_searchKeyword = "닌텐도 스위치 모여봐요 동물의 숲 에디션 본체"
+# g_id = ''
+# g_pw = ''
+# g_searchKeyword = "닌텐도 스위치 모여봐요 동물의 숲 에디션 본체"
+
+# 기본값 읽어서 설정
+def readConfig():
+    f = open("config.txt", "r")    
+    configList = f.readlines()
+    f.close()
+
+    global g_id
+    global g_pw
+    global g_productUrl
+    g_id = configList[0].replace(" ", "").replace("ID:", "").replace("\n", "")
+    g_pw = configList[1].replace(" ", "").replace("PW:", "").replace("\n", "")
+    g_productUrl = configList[2].replace(" ", "").replace("PRODUCTPAGE:", "").replace("\n", "")
+
+    return True
 
 # 로그인 기능 수행
 def login():
@@ -56,7 +75,53 @@ def _afterLoginWait():
                 continue
     return adviceContainer
 
+def tryBuy():
+    # 상품페이지 직접 접근
+    driver.get(g_productUrl)
+    result = True
+
+    # 재고 확인
+    webElementType = webdriver.remote.webelement.WebElement
+    try:
+        soldOut = driver.find_element_by_class_name('sold_out')
+        if soldOut != None and type(soldOut) == webElementType:
+            result = False
+    except:
+        try:
+            buyButton = driver.find_element_by_class_name('buy')    
+            if buyButton != None and type(buyButton) == webElementType:
+                buyButton.click()
+                buy()
+                result = True
+        except:
+            result = False
+
+    return result
+
+def buy():
+    # 카드 선택 관련 div
+    cardSelectDiv = driver.find_element_by_id('divCardSelectList')
+    # 농협카드 선택
+    cardSelect = cardSelectDiv.find_element_by_id('onSelectCard')
+    cardSelect.click()
+    cardList = cardSelectDiv.find_elements_by_tag_name('a')
+    myCard = next((x for x in cardList if x.text == "NH채움카드"), None)
+    myCard.click()
+    # 할부개월 선택
+    installment = driver.find_element_by_id('installment')
+    installment.click()
+    insSelect = driver.find_element_by_id('installmentList')    
+    insList = insSelect.find_elements_by_tag_name('a')
+    myIns = next((x for x in insList if x.text == "일시불"), None)
+    myIns.click()
+    # 구매 버튼
+    payButton = driver.find_element_by_id('btnPaymentSubmit')
+    payButton.click()    
+
 def __main__():
+    # 설정값 세팅
+    readConfig()
+
     # 로그인 처리
     loginTry = 0
     while True:
@@ -72,21 +137,11 @@ def __main__():
         return
 
     # 반복
-
-    # 상품 검색
-    # searchTextField = driver.find_element_by_id('_searchKeyword')
-    # searchTextField.send_keys(g_searchKeyword)
-    # searchButton = driver.find_element_by_id('_searchKeywordBtn')
-    # searchButton.click()
-
-    # 상품페이지 직접 접근
-    driver.get(g_productSwitchUrl)
-
-    # 재고 확인
-    soldOut = driver.find_elements_by_class_name('sold_out')
-    if soldOut
+    while True:
+        if tryBuy():
+            break
 
     return True
-    # 
+
 
 __main__()
