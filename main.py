@@ -1,7 +1,5 @@
+from datetime import datetime
 from selenium import webdriver
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions
-from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
 
 # 드라이버
@@ -10,15 +8,17 @@ driver = webdriver.Chrome('chromedriver')
 # url
 g_loginUrl = 'https://front.wemakeprice.com/user/login'
 g_adviceUrl = 'https://front.wemakeprice.com/user/password/advice'
-# g_productUrl = ''
 # g_productSwitchUrl = 'https://front.wemakeprice.com/product/960270016'
 # g_productSwitchTitleUrl = 'https://front.wemakeprice.com/product/912011697'
 # g_productTesthUrl = 'https://front.wemakeprice.com/product/912011697'
+# 4/22 행사 전 제품번호
+# 본체+링피트 https://front.wemakeprice.com/product/960332082
+# 동숲에디션+타이틀 https://front.wemakeprice.com/product/920492625
+# 본체+야숨 https://front.wemakeprice.com/product/960492941
 
-# info
-# g_id = ''
-# g_pw = ''
-# g_searchKeyword = "닌텐도 스위치 모여봐요 동물의 숲 에디션 본체"
+# 4/22 바뀐 번호
+# 동숲에디션+타이틀 https://front.wemakeprice.com/product/960291722
+# 본체+링피트 https://front.wemakeprice.com/product/960334500
 
 # 기본값 읽어서 설정
 def readConfig():
@@ -26,12 +26,15 @@ def readConfig():
     configList = f.readlines()
     f.close()
 
-    global g_id
-    global g_pw
-    global g_productUrl
-    g_id = configList[0].replace(" ", "").replace("ID:", "").replace("\n", "")
-    g_pw = configList[1].replace(" ", "").replace("PW:", "").replace("\n", "")
-    g_productUrl = configList[2].replace(" ", "").replace("PRODUCTPAGE:", "").replace("\n", "")
+    global g
+    g = {
+        'ID': '',
+        'PW': '',
+        'PRODUCTPAGE': ''
+    }
+    for config in configList:
+        info = config.replace(' ', '').replace('\n', '').split('>>')
+        g[info[0]] = info[1]
 
     return True
 
@@ -40,11 +43,11 @@ def login():
     driver.get(g_loginUrl)
     # id
     idTextField = driver.find_element_by_id('_loginId')
-    idTextField.send_keys(g_id)
+    idTextField.send_keys(g['ID'])
     
     # pw
     pwTextField = driver.find_element_by_id('_loginPw')
-    pwTextField.send_keys(g_pw)
+    pwTextField.send_keys(g['PW'])
     
     # login button
     loginButton = driver.find_element_by_id('_userLogin')
@@ -77,7 +80,7 @@ def _afterLoginWait():
 
 def tryBuy():
     # 상품페이지 직접 접근
-    driver.get(g_productUrl)
+    driver.get(g['PRODUCTPAGE'])
     result = True
 
     # 재고 확인
