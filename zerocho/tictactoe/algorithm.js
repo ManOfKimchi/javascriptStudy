@@ -303,12 +303,19 @@ function normal(gameBoard, turn) {
         }
     }
     var centerPos = Math.floor(gameSize / 2);
-    if (emptyCount === (gameSize * gameSize - 1) && 
-        gameBoard[centerPos][centerPos] === cellType.O) {
-        // 아무 대각선이나 선택
-        return {
-            row: 0,
-            col: gameSize - 1
+    if (emptyCount === (gameSize * gameSize - 1)) {
+        if (gameBoard[centerPos][centerPos] === cellType.O) {
+            // 아무 대각선이나 선택
+            return {
+                row: 0,
+                col: gameSize - 1
+            }
+        } else {
+            // 첫 수인데 가운데 선택안했으면 당연히 가운데 선택
+            return {
+                row: centerPos,
+                col: centerPos
+            }
         }
     }
 
