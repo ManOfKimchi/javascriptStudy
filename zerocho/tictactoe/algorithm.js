@@ -69,6 +69,7 @@ function normal(gameBoard, turn) {
     // 3까지 완벽하게 짠다면 expert 난이도로 명명하여 적용
     // 현재 난이도는 랜덤하게 선택하는 것으로 결정
 
+    // 첫 수가 가운데일 때 대각선에 무조건 둬야 하는 조건 추가
 
     var result = null;
 
@@ -294,6 +295,22 @@ function normal(gameBoard, turn) {
         }
     }
 
+    // 가운데 칸만 선택되어 있으면 대각선 선택
+    var emptyCount = 0;
+    for(var r = 0; r < gameSize; r++) {
+        for(var c = 0; c < gameSize; c++) {
+            if (gameBoard[r][c] === cellType.EMPTY) emptyCount++;
+        }
+    }
+    var centerPos = Math.floor(gameSize / 2);
+    if (emptyCount === (gameSize * gameSize - 1) && 
+        gameBoard[centerPos][centerPos] === cellType.O) {
+        // 아무 대각선이나 선택
+        return {
+            row: 0,
+            col: gameSize - 1
+        }
+    }
 
     // 어디놔야 할지 모르겠어요
     // 선택되지 않은 좌표 수집
