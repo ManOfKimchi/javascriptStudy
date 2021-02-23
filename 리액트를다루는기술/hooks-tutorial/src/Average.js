@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useCallback } from 'react';
+import React, { useState, useMemo, useCallback, useRef } from 'react';
 
 const getAverage = (numbers) => {
     console.log('calc');
@@ -10,22 +10,27 @@ const getAverage = (numbers) => {
 const Average = () => {
     const [list, setList] = useState([]);
     const [number, setNumber] = useState('');
+    const inputEl = useRef(null);
 
-    const onChange = (e) => {
+    const onChange = useCallback((e) => {
         setNumber(e.target.value);
-    };
-    const onInsert = useCallback(
-        (e) => {
-            setList(list.concat(parseInt(number)));
-            setNumber('');
-        },
-        [number, list]
-    );
+    }, []);
+    const onInsert = useCallback(() => {
+        setList(list.concat(parseInt(number)));
+        setNumber('');
+        inputEl.current.focus();
+    }, [number, list]);
+
     const avg = useMemo(() => getAverage(list), [list]);
+
+    const customRef = useRef(1);
+    const setCustomRef = (val) => {
+        customRef.current = val;
+    };
 
     return (
         <div>
-            <input value={number} onChange={onChange}></input>
+            <input value={number} onChange={onChange} ref={inputEl}></input>
             <button onClick={onInsert}>Register</button>
             <ul>
                 {list.map((val, idx) => (
@@ -35,6 +40,7 @@ const Average = () => {
             <div>
                 <b>Average:</b> {avg}
             </div>
+            <div>CustomRef: {setCustomRef}</div>
         </div>
     );
 };
