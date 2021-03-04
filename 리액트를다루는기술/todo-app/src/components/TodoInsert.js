@@ -9,7 +9,7 @@ const TodoInsert = ({ onInsert }) => {
     }, []);
     const onSubmit = useCallback(
         (e) => {
-            onInsert(value);
+            if (value) onInsert(value);
             setValue('');
             e.preventDefault();
         },
