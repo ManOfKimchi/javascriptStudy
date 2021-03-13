@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import NewsItem from './NewsItem';
 import axios from 'axios';
 
+const apiKey = 'c8101c0596de4f388afa1f20455dd403';
+const url = 'https://newsapi.org/v2/top-headlines';
+
 const NewsListBlock = styled.div`
     box-sizing: border-box;
     padding-bottom: 3rem;
@@ -16,7 +19,7 @@ const NewsListBlock = styled.div`
     }
 `;
 
-const NewsList = ({ url, apiKey, category }) => {
+const NewsList = ({ category }) => {
     const [articles, setArticles] = useState(null);
     const [loading, setLoading] = useState(false);
 
@@ -24,10 +27,10 @@ const NewsList = ({ url, apiKey, category }) => {
         const fetchData = async () => {
             setLoading(true);
             try {
-                const query = `?country=kr&apiKey=${apiKey}${
-                    category !== 'all' ? '&category=' + category : ''
-                }`;
-                const response = await axios.get(`${url}${query}`);
+                const query = category === 'all' ? '' : `&category=${category}`;
+                const response = await axios.get(
+                    `${url}?country=kr&apiKey=${apiKey}${query}`,
+                );
                 setArticles(response.data.articles);
             } catch (e) {
                 console.log(e);
@@ -35,7 +38,7 @@ const NewsList = ({ url, apiKey, category }) => {
             setLoading(false);
         };
         fetchData();
-    }, [url, apiKey, category]);
+    }, [category]);
 
     if (loading) {
         return <NewsListBlock>wait..</NewsListBlock>;

@@ -1,20 +1,10 @@
-import React, { useState, useCallback } from 'react';
-import NewsList from './components/NewsList';
-import Categories from './components/Categories';
-
-const apiKey = 'c8101c0596de4f388afa1f20455dd403';
-const url = 'https://newsapi.org/v2/top-headlines';
+import React from 'react';
+import { Route } from 'react-router-dom';
+import NewsPage from './pages/NewsPage';
 
 const App = () => {
-    const [category, setCategory] = useState('all');
-    const onSelect = useCallback((category) => setCategory(category), []);
-
-    return (
-        <>
-            <Categories category={category} onSelect={onSelect}></Categories>
-            <NewsList apiKey={apiKey} url={url} category={category}></NewsList>
-        </>
-    );
+    // :category? 에서 ?는 선택적이라는 뜻
+    return <Route path="/:category?" component={NewsPage}></Route>;
 };
 
 export default App;
