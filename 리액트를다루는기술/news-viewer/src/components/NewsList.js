@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import NewsItem from './NewsItem';
 import axios from 'axios';
+import usePromise from '../lib/usePromise';
 
 const apiKey = 'c8101c0596de4f388afa1f20455dd403';
 const url = 'https://newsapi.org/v2/top-headlines';
@@ -20,32 +21,22 @@ const NewsListBlock = styled.div`
 `;
 
 const NewsList = ({ category }) => {
-    const [articles, setArticles] = useState(null);
-    const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            setLoading(true);
-            try {
-                const query = category === 'all' ? '' : `&category=${category}`;
-                const response = await axios.get(
-                    `${url}?country=kr&apiKey=${apiKey}${query}`,
-                );
-                setArticles(response.data.articles);
-            } catch (e) {
-                console.log(e);
-            }
-            setLoading(false);
-        };
-        fetchData();
+    const [loading, response, error] = usePromise(() => {
+        const query = category === 'all' ? '' : `&category=${category}`;
+        return axios.get(`${url}?country=kr&apiKey=${apiKey}${query}`);
     }, [category]);
 
     if (loading) {
         return <NewsListBlock>wait..</NewsListBlock>;
     }
-    if (!articles) {
+    if (!response) {
         return null;
     }
+    if (error) {
+        return <NewsListBlock>An error occured!</NewsListBlock>;
+    }
+
+    const { articles } = response.data;
 
     return (
         <NewsListBlock>
