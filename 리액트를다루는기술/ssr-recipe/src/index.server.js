@@ -8,8 +8,9 @@ import fs from 'fs';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
-import rootReducer from './modules';
 import PreloadContext from './lib/PreloadContext';
+import createSagaMiddleware, { END } from 'redux-saga';
+import rootReducer, { rootSaga } from './modules';
 
 const manifest = JSON.parse(
     fs.readFileSync(path.resolve('./build/asset-manifest.json'), 'utf-8')
@@ -52,7 +53,12 @@ const app = express();
 const serverRender = async (req, res, next) => {
     // 404 떠야 할 때 SSR 해줌
     const context = {};
-    const store = createStore(rootReducer, applyMiddleware(thunk));
+    const sagaMiddleware = createSagaMiddleware();
+    const store = createStore(
+        rootReducer,
+        applyMiddleware(thunk, sagaMiddleware)
+    );
+    const sagaPromise = sagaMiddleware.run(rootSaga).toPromise();
     const preloadContext = {
         done: false,
         promises: [],
@@ -68,7 +74,9 @@ const serverRender = async (req, res, next) => {
     );
 
     ReactDOMServer.renderToStaticMarkup(jsx);
+    store.dispatch(END);
     try {
+        await sagaPromise;
         await Promise.all(preloadContext.promises);
     } catch (error) {
         return res.status(500);
