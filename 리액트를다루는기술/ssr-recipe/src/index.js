@@ -2,13 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
 import thunk from 'redux-thunk';
 import createSagaMiddleware from 'redux-saga';
 import rootReducer, { rootSaga } from './modules';
+import { loadableReady } from '@loadable/component';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -18,18 +18,20 @@ const store = createStore(
 );
 sagaMiddleware.run(rootSaga);
 
-ReactDOM.render(
-    <React.StrictMode>
+const Root = () => {
+    return (
         <Provider store={store}>
             <BrowserRouter>
                 <App />
             </BrowserRouter>
         </Provider>
-    </React.StrictMode>,
-    document.getElementById('root')
-);
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
+    );
+};
+const root = document.getElementById('root');
+if (process.env.NODE_ENV === 'production') {
+    loadableReady(() => {
+        ReactDOM.hydrate(<Root></Root>, root);
+    });
+} else {
+    ReactDOM.render(<Root></Root>, root);
+}
