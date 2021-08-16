@@ -25,7 +25,7 @@ const PostContent = styled.div`
     color: ${palette.gray[8]};
 `;
 
-const PostViewer = ({ post, error, loading }) => {
+const PostViewer = ({ post, error, loading, actionButtons }) => {
     if (error) {
         if (error.response && error.response.status === 404) {
             return <PostViewerBlock>Not Found</PostViewerBlock>;
@@ -48,6 +48,7 @@ const PostViewer = ({ post, error, loading }) => {
                 ></SubInfo>
                 <Tags tags={tags}></Tags>
             </PostHead>
+            {actionButtons}
             <PostContent
                 dangerouslySetInnerHTML={{
                     __html: body,
