@@ -183,3 +183,53 @@
                 },
             )(MyComponent)
             ```
+
+## 정리하면서 복습하자
+
+-   useState로 state 대상 설정
+
+    ```js
+    const [field, setField] = useState('default value');
+    ```
+
+-   어쩔 수 없이 돔 직접 조작 시 ref 찾아볼것
+
+    ```jsx
+    <input
+        ref={(ref) => {
+            this.input = ref;
+        }}
+    />
+    ```
+
+-   생명주가
+
+    -   마운트, 업데이트, 언마운트 로 크기 나뉘어지고,
+        should, did 등을 붙여서 세부적으로 더 나뉘어 짐
+
+-   react hooks
+    -   어려워지기 시작한 부분
+    -   useState
+        -   state 설정하고 다룰 수 있게 함
+    -   useEffect
+        -   렌더링 될때마다 특정 작업 수행 설정
+            (componentDidMount, componentDidUpdate)
+        -   마운트 될 때만 실행하려면 빈 배열 옵션으로
+        -   특정 값만 의존하고 싶으면 배열에 넣기
+    -   useReducer
+        -   리듀서 함수 구현, state 형태
+        ```js
+        function reducer(state, action) {
+            if (action.type === 'aaa') {
+            }
+            return { ...state };
+        }
+        // dispatch: 액션을 발생시키는 함수
+        const [state, dispatch] = useReducer(reducer, { value: 0 });
+        dispatch({ type: 'aaa' });
+        ```
+    -   useMemo
+        -   특정 값이 바뀔때만 연산하고 아니면 이전 값 사용
+    -   useCallback
+        -   렌더링 성능 최적화를 위해 사용
+        -   렌더링 될 때마다 재정의 되지 않도록 메모이제이션 함
