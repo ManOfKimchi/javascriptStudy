@@ -4,15 +4,24 @@
         <meta charset="UTF-8" />
         <meta http-equiv="X-UA-Compatible" content="3;url=https://www.mozilla.org" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="css/style.css">
         <title>momentum</title>
     </head>
     <body>
+        <h2 id="clock">00:00:00</h2>
         <form id="login-form" class="hidden">
             <input required maxlength="15" type="text" placeholder="What is you name?"/>
             <input type="submit" value="Log In" />
         </form>
         <h1 id="greeting" class="hidden"></h1>
-        <script src="app.js"></script>
+        <div id="quote">
+            <span></span>
+            <span></span>
+        </div>
+
+        <script src="js/clock.js"></script>
+        <script src="js/greetings.js"></script>
+        <script src="js/quotes.js"></script>
+        <script src="js/background.js"></script>
     </body>
 </html>
