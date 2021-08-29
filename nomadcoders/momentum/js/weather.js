@@ -22,7 +22,8 @@ const getWeather = () => {
     }
   );
 };
-// getWeather();
+getWeather();
+
 const fakeWeather = (name, wText, degree) => {
   const cityEl = document.querySelector("#weather span:first-child");
   const weatherEl = document.querySelector("#weather span:last-child");
@@ -30,4 +31,4 @@ const fakeWeather = (name, wText, degree) => {
   weatherEl.innerText = `, ${wText} / ${degree}℃`;
 };
 
-fakeWeather("Daejeon", "Cloud", 30);
+//fakeWeather("Daejeon", "Cloud", 30);
