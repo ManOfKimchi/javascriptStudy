@@ -3,6 +3,7 @@ const inputText = loginForm.querySelector("input");
 const greeting = document.querySelector("#greeting");
 const css = {
   HIDDEN: "hidden",
+  GREETING: "greeting",
 };
 const field = {
   USERNAME: "name",
@@ -10,6 +11,7 @@ const field = {
 
 function showGreeting() {
   greeting.innerText = `Hello ${localStorage.getItem(field.USERNAME)}`;
+  greeting.classList.add(css.GREETING);
   loginForm.classList.add(css.HIDDEN);
   greeting.classList.remove(css.HIDDEN);
 }
