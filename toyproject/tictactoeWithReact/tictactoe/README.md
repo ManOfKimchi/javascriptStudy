@@ -7,6 +7,10 @@
 - Functional Component 구조로 만들기
 - Redux 활용
 - AI 알고리즘 다시 짜기
+- 되돌리기
+- 리셋
+- 점수판
+- 싱글/대전모드
 
 ## History
 
