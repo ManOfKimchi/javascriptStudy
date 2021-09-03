@@ -52,8 +52,6 @@ export const getWeather = async () => {
     const { coords } = await new Promise((resolve, reject) =>
         navigator.geolocation.getCurrentPosition(resolve, reject),
     );
-    // position = coords
-    // success
     const lati = coords.latitude;
     const longi = coords.longitude;
     const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lati}&lon=${longi}&appid=${apiKey}&units=metric`;

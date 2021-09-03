@@ -11,8 +11,8 @@ import {
 } from "./api.js";
 import Clock from "./clock.js";
 import Quotes from "./quotes.js";
-import Background from "./Background.js";
-import Todo from "./Todo.js";
+import Background from "./background.js";
+import Todo from "./todo.js";
 import Weather from "./weather.js";
 import Loading from "./Loading.js";
 
