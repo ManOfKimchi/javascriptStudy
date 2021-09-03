@@ -1,70 +1,154 @@
-.hidden {
-  display: none;
+.login-form {
+    text-align: center;
+    padding-bottom: 1rem;
 }
 
-html,
-body {
-  height: 100%;
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
-.container {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  flex-direction: row;
-  align-items: flex-start;
+
+.hidden {
+    display: none;
+}
+
+.usercontent {
+    padding-top: 5rem;
 }
 
 .background {
-  width: 100%;
-  height: 100%;
-  background-image: url("https://picsum.photos/1600/900");
-  opacity: 0.7;
-  position: absolute;
-  content: "";
-  top: 0;
-  left: 0;
-  z-index: -1;
+    width: 100%;
+    height: 100%;
+    opacity: 0.7;
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+    z-index: -1;
 }
 
-.location {
-  padding-top: 1rem;
-  padding-right: 1rem;
-  position: absolute;
-  top: 0;
-  right: 0;
+.loading {
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background-color: black;
+    content: "";
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.loading > div {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.weather {
+    color: white;
+    padding-right: 1rem;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    text-align: right;
+    position: absolute;
+    right: 1rem;
+    top: 5rem;
 }
 
 .clock {
-  text-align: right;
-  padding-right: 1rem;
+    text-align: right;
+    padding-right: 1rem;
+    color: aliceblue;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    position: absolute;
+    right: 1rem;
+    top: 5rem;
 }
 
 .greeting {
-  padding-top: 15rem;
-  text-align: center;
+    font-size: 3rem;
+    text-align: center;
+    color: white;
+    text-shadow: 0px 0 black, 0 1px black, 1px 0 black, 0 0px black;
 }
 
-.todoform {
-  text-align: center;
+.forminput {
+    border-radius: 1rem;
+    border: 0px;
+    height: 2rem;
+    width: 15rem;
+    padding-left: 1rem;
+}
+.forminput:focus {
+    outline: 0;
+    box-shadow: 0 0 10px black;
+}
+
+.loginbtn {
+    border-radius: 1rem;
+    border: 0px;
+    width: 5rem;
+    height: 2rem;
+    color: white;
+    background-color: black;
+}
+.logoutbtn {
+    border-radius: 1rem;
+    border: 0px;
+    width: 5rem;
+    height: 2rem;
+    margin-top: 1rem;
+    margin-right: 1rem;
+    position: absolute;
+    right: 0;
+    top: 0;
+    color: white;
+    background-color: black;
+}
+
+.todolist {
+    list-style: none;
+}
+.todolist > li {
+    color: white;
+    text-align: center;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+.todolist > li > button {
+    border-radius: 0.8rem;
+    display: inline-flex;
+    align-items: center;
+    text-align: center;
+    border: 0px;
+    background-color: transparent;
+    color: red;
+    text-shadow: 0px 0 black, 0 1px black, 1px 0 black, 0 0px black;
+    font-size: 1.5rem;
+}
+
+.todoList > li {
+    padding-right: 5rem;
 }
 
 .quotes {
-  padding-top: 2rem;
-  padding-right: 1rem;
-  padding-bottom: 1rem;
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  text-align: center;
-  background: linear-gradient(to top, black, 70%, transparent);
-  width: 100%;
-  opacity: 0.6;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
+    padding-top: 2rem;
+    padding-right: 1rem;
+    padding-bottom: 1rem;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    text-align: center;
+    background: linear-gradient(to top, black, 70%, transparent);
+    width: 100%;
+    opacity: 0.6;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }
 .quotes > span {
-  text-align: center;
-  color: aliceblue;
+    text-align: center;
+    color: aliceblue;
 }
