@@ -5,10 +5,12 @@ export default function ProductPage({
   initialState,
   onSelect,
   optionInputChange,
+  onAddToCart,
 }) {
   this.state = initialState;
   this.onSelect = onSelect;
   this.optionInputChange = optionInputChange;
+  this.onAddToCart = onAddToCart;
 
   // ProductPage
   this.$target = document.createElement("div");
@@ -103,12 +105,21 @@ export default function ProductPage({
           this.optionInputChange(parseInt(e.target.value), input.dataset.id);
         });
       });
+      const orderBtn = this.$detail.querySelector(".OrderButton");
+      orderBtn.addEventListener("click", (e) => {
+        if (Object.keys(this.state.tempBag).length) {
+          this.onAddToCart(this.state.tempBag);
+        } else {
+          console.warn("Disable 처리 할 것");
+        }
+      });
     }
   };
-  this.setState = ({ product }) => {
+  this.setState = ({ product, tempBag }) => {
     this.state = {
       ...this.state,
       product,
+      tempBag,
     };
     this.render();
   };

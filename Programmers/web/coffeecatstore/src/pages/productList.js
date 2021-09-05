@@ -28,7 +28,7 @@ export default function ProductListPage({
   this.$target.addEventListener("click", (e) => {
     const product = e.target.closest(".Product");
     if (!product) return;
-    this.onProductClick(product.dataset.id);
+    this.onProductClick(parseInt(product.dataset.id));
   });
 
   this.render = () => {
