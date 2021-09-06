@@ -10,7 +10,9 @@ const URL = {
 };
 
 export const getProducts = async () => {
-  const res = await fetch(`${window.location.origin}/${URL.getProducts}`);
+  const { href, hash } = window.location;
+  const path = href.slice(0, href.length - hash.length);
+  const res = await fetch(`${path}/${URL.getProducts}`);
   // const res = await fetch(URL.getProducts);
   try {
     if (!res.ok) {
