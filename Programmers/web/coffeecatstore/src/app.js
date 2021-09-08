@@ -1,5 +1,10 @@
 import ProductListPage from "./pages/productList.js";
-import { getProducts, getProductInfo, getCartBag } from "./api.js";
+import {
+  getProducts,
+  getProductInfo,
+  getCartBag,
+  clearCartBag,
+} from "./api.js";
 import ProductPage from "./pages/productPage.js";
 import Router from "./router.js";
 import CartPage from "./pages/cartPage.js";
@@ -127,6 +132,14 @@ export default function App($main) {
   const cartPage = new CartPage({
     $app: this.$main,
     initialState: this.state,
+    onPurchase: async () => {
+      await clearCartBag();
+      this.setState({
+        ...this.state,
+        bag: {},
+      });
+      window.location.href = `${window.location.origin}/#web/`;
+    },
   });
   this.router = new Router({
     // 상품목록
@@ -170,8 +183,11 @@ export default function App($main) {
   this.setState = (nextState) => {
     this.state = nextState;
     console.log("main state changed", nextState);
-    productListPage.setState(this.state);
-    productPage.setState(this.state);
+    if (productListPage.$target.style.display != "none")
+      productListPage.setState(this.state);
+    if (productPage.$target.style.display != "none")
+      productPage.setState(this.state);
+    if (cartPage.$target.style.display != "none") cartPage.setState(this.state);
   };
 
   this.init();

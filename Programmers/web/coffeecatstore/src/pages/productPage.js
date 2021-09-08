@@ -19,7 +19,7 @@ export default function ProductPage({
 
   // ProductHeader
   this.$header = document.createElement("h1");
-  this.$header.innerText = "커피잔 상품 정보";
+  this.$header.innerText = "상품 정보";
   this.$target.appendChild(this.$header);
 
   // ProductDetail

@@ -26,7 +26,9 @@ export const getProducts = async () => {
 };
 
 export const getProductInfo = async (id) => {
-  const res = await fetch(`${window.location.origin}/${URL.productInfoTable}`);
+  const { href, hash } = window.location;
+  const path = href.slice(0, href.length - hash.length);
+  const res = await fetch(`${path}/${URL.productInfoTable}`);
   try {
     if (!res.ok) {
       throw new Exception("productInfoTable");
@@ -51,4 +53,8 @@ export const getProductInfo = async (id) => {
 export const getCartBag = async () => {
   const cartSerialized = await localStorage.getItem("cart");
   return cartSerialized ? JSON.parse(cartSerialized) : {};
+};
+export const clearCartBag = async () => {
+  await localStorage.removeItem("cart");
+  return true;
 };
