@@ -1,3 +1,5 @@
+import { observable, observe } from "./Observer.js";
+
 export default class Component {
   $target;
   $state;
@@ -7,11 +9,19 @@ export default class Component {
     this.$target = $target;
     this.$props = $props;
     this.setup();
-    this.setEvent();
-    this.render();
   }
 
-  setup() {}
+  setup() {
+    this.state = observable(this.initState());
+    observe(() => {
+      this.render();
+      this.setEvent();
+      this.mounted();
+    });
+  }
+  initState() {
+    return {};
+  }
   /**
    * render 후 실행
    */
